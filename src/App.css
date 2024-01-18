@@ -11,6 +11,9 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+  .buttonAnimation {
+    animation: snappyScale 0.2 seconds ease-out;
+  }
 }
 
 .App-header {
@@ -34,5 +37,16 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+@keyframes snappyScale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
   }
 }
