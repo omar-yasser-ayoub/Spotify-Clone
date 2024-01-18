@@ -16,8 +16,8 @@ function HomeComponent(props) {
           <CardComponent title="CABIN FEVER" img="https://i1.sndcdn.com/artworks-fcgacUsVJnMdw86Q-OYdcvw-t500x500.jpg"/>
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6">Jump back in</h1>
-        <div className='overflow-y-hidden no-scrollbar'>
-          <div className="flex flex-row gap-2 mt-6">
+        <div className='overflow-y-hidden no-scrollbar -mx-4'>
+          <div className="flex flex-row gap-2 mt-6 ml-4">
             <ArtistComponent title="A Call" artist="EDEN" type="Single" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg"/>
             <ArtistComponent title="bugging!" artist="brakence" type="Single" img="https://images.genius.com/08f7968612f58dfe31462ea1bbd29119.1000x1000x1.png"/>
             <ArtistComponent title="Optifine" artist="gabby start" type="Single" img="https://i1.sndcdn.com/artworks-qtTeFHOJZRXR-0-t500x500.jpg"/>
