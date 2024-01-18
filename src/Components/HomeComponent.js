@@ -64,4 +64,4 @@ function HomeComponent(props) {
     );
   }
   
-  export default HomeComponent;
+export default HomeComponent;
