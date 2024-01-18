@@ -53,7 +53,7 @@ function App() {
         </div>
       </div>
       {currentMenu === "Home" && <HomeComponent/>}
-      {currentMenu === "Serach" && <SearchComponent/>}
+      {currentMenu === "Search" && <SearchComponent/>}
       {currentMenu === "Library" && <LibraryComponent/>}
     </div>
   );
