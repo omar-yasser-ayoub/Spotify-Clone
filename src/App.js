@@ -32,18 +32,18 @@ function App() {
     <div>
       <div className="z-10 -bottom-0.5 w-full fixed">
         <div>
-          <div className="bg-gradient-to-t from-black to-transparent absolute -bottom-0.5 w-full h-20 ">
+          <div className="bg-gradient-to-t from-black to-transparent absolute -bottom-0.5 w-full h-60 ">
           </div>
-          <div className="bg-gradient-to-t from-black to-transparent absolute -bottom-0.5 w-full grid grid-cols-3 justify-center h-20 items-center">
-              <div className="text-text-grey text-sm text-center" onClick={() => handleMenuClick("Home")}>
+          <div className="bg-gradient-to-t from-black to-transparent absolute -bottom-0.5 w-full grid grid-cols-3 justify-center h-60 items-center">
+              <div className="text-text-grey text-xs text-center mt-40" onClick={() => handleMenuClick("Home")}>
                 {currentMenu === "Home" ? (<HomeSelectedSVG width={25} height={25} className= {isAnimating ? "buttonAnimation mx-auto" : "mx-auto"} />) : (<HomeSVG width={25} height={25} className="mx-auto" />)}
                 <h1 className="mt-1">Home</h1>
               </div>
-              <div className="text-text-grey text-sm text-center" onClick={() => handleMenuClick("Search")}>
+              <div className="text-text-grey text-xs text-center mt-40" onClick={() => handleMenuClick("Search")}>
                 {currentMenu === "Search" ? (<SearchSelectedSVG width={25} height={25} className= {isAnimating ? "buttonAnimation mx-auto" : "mx-auto"} />) : (<SearchSVG width={25} height={25} className="mx-auto" />)}
                 <h1 className="mt-1">Search</h1>
               </div>  
-              <div className="text-text-grey text-sm text-center" onClick={() => handleMenuClick("Library")}>
+              <div className="text-text-grey text-xs text-center mt-40" onClick={() => handleMenuClick("Library")}>
                 {currentMenu === "Library" ? (<LibrarySelectedSVG width={25} height={25} className= {isAnimating ? "buttonAnimation mx-auto" : "mx-auto"} />) : (<LibrarySVG width={25} height={25} className="mx-auto" />)}
                 <h1 className="mt-1">Your Library</h1>
               </div> 
