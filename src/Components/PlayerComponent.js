@@ -3,7 +3,7 @@ import { ReactComponent as LikeSVG } from '../Assets/Heart.svg';
 
 function PlayerComponent() {
     return (
-        <div className="absolute bottom-16 w-screen h-20">
+        <div className="absolute bottom-16 w-full h-20">
             <div className="bg-gray-600 h-4/5 rounded-md mx-2 grid grid-cols-2 justify-center items-center">
               <div className='inline-flex'>
                 <img src='https://i.scdn.co/image/ab67616d0000b2730cffe2d0b92e5fa76c36913d' width={48} height={48} className='rounded-md mx-2'/>

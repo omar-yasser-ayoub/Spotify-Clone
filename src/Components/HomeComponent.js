@@ -2,10 +2,10 @@ import ArtistComponent from "./ArtistComponent";
 import CardComponent from "./CardComponent";
 function HomeComponent(props) {
     return (
-      <div className="z-0 w-screen absolute bg-gray-800 h-max bg-fixed">
+      <div className="z-0 w-full absolute bg-gray-800 h-max bg-fixed">
       <div className="mx-4">
         <h1 className="text-4xl font-semibold text-white mt-8">Good evening</h1> 
-        <div className='grid grid-cols-2 gap-2 mt-6 justify-center items-center '>
+        <div className='grid grid-cols-2 gap-2 mt-6 justify-center items-center'>
           <CardComponent title="A Call" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg"/>
           <CardComponent title="bugging!" img="https://images.genius.com/08f7968612f58dfe31462ea1bbd29119.1000x1000x1.png"/>
           <CardComponent title="Optifine" img="https://i1.sndcdn.com/artworks-qtTeFHOJZRXR-0-t500x500.jpg"/>
@@ -16,7 +16,7 @@ function HomeComponent(props) {
           <CardComponent title="CABIN FEVER" img="https://i1.sndcdn.com/artworks-fcgacUsVJnMdw86Q-OYdcvw-t500x500.jpg"/>
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6">Jump back in</h1>
-        <div className='overflow-y-hidden'>
+        <div className='overflow-y-hidden no-scrollbar'>
           <div className="flex flex-row gap-2 mt-6">
             <ArtistComponent title="A Call" artist="EDEN" type="Single" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg"/>
             <ArtistComponent title="bugging!" artist="brakence" type="Single" img="https://images.genius.com/08f7968612f58dfe31462ea1bbd29119.1000x1000x1.png"/>
@@ -29,7 +29,7 @@ function HomeComponent(props) {
           </div>
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6">Your favourite artists</h1>
-        <div className='overflow-y-hidden'>
+        <div className='overflow-y-hidden no-scrollbar'>
           <div className="flex flex-row gap-2 mt-6 ">
           <ArtistComponent title="A Call" artist="EDEN" type="Single" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg"/>
             <ArtistComponent title="bugging!" artist="brakence" type="Single" img="https://images.genius.com/08f7968612f58dfe31462ea1bbd29119.1000x1000x1.png"/>
@@ -42,7 +42,7 @@ function HomeComponent(props) {
           </div>
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6">Your favourite artists</h1>
-        <div className='overflow-y-hidden'>
+        <div className='overflow-y-hidden no-scrollbar'>
           <div className="flex flex-row gap-2 mt-6 ">
           <ArtistComponent title="A Call" artist="EDEN" type="Single" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg"/>
             <ArtistComponent title="bugging!" artist="brakence" type="Single" img="https://images.genius.com/08f7968612f58dfe31462ea1bbd29119.1000x1000x1.png"/>

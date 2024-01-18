@@ -15,7 +15,7 @@ import LibraryComponent from './Components/LibraryComponent';
 
 function App() {
 
-  const [currentMenu, setMenu] = useState("");
+  const [currentMenu, setMenu] = useState("Home");
   const [isAnimating, setAnimating] = useState(false);
 
   const handleClick = () => {
@@ -30,11 +30,11 @@ function App() {
   }
   return (
     <div>
-      <div className="z-10 bottom-0 w-screen fixed">
+      <div className="z-10 bottom-0 w-full fixed">
         <div>
-          <div className="bg-gradient-to-t from-black to-transparent absolute bottom-0 w-screen h-20 ">
+          <div className="bg-gradient-to-t from-black to-transparent absolute bottom-0 w-full h-20 ">
           </div>
-          <div className="bg-gradient-to-t from-black to-transparent absolute bottom-0 w-screen grid grid-cols-3 justify-center h-20 items-center">
+          <div className="bg-gradient-to-t from-black to-transparent absolute bottom-0 w-full grid grid-cols-3 justify-center h-20 items-center">
               <div className="text-gray-300 text-sm text-center" onClick={() => handleMenuClick("Home")}>
                 {currentMenu === "Home" ? (<HomeSelectedSVG width={25} height={25} className= {isAnimating ? "buttonAnimation mx-auto" : "mx-auto"} />) : (<HomeSVG width={25} height={25} className="mx-auto" />)}
                 <h1 className="mt-1">Home</h1>
