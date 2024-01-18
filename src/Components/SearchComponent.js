@@ -3,7 +3,7 @@ import { ReactComponent as SearchSVG } from '../Assets/Search.svg';
 import vid1 from "./Videos\\Brakence.mp4";
 import vid2 from "./Videos\\Eden.mp4";
 import vid3 from "./Videos\\Riff.mp4";
-
+import GenreComponent from "./GenreComponent";
 function SearchComponent(props) {
     return (
       <div className="z-0 w-full absolute bg-dark-bg h-max bg-fixed font-semibold text-white">
@@ -20,6 +20,14 @@ function SearchComponent(props) {
             <VideoComponent genre="energetic" vid={vid3}/>
           </div>
           <h1 className="mt-8">Browse all</h1>
+          <div className="mt-8 grid grid-cols-2 gap-4">
+            <GenreComponent text="Music" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg" />
+            <GenreComponent text="Music" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg" />
+            <GenreComponent text="Music" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg" />
+            <GenreComponent text="Music" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg" />
+            <GenreComponent text="Music" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg" />
+            <GenreComponent text="Music" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg" />
+          </div>
         </div>
       </div>
     );
