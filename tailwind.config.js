@@ -13,6 +13,13 @@ module.exports = {
           'rgba(0,0,0,0)',
         ],
       },
+
+      colors: {
+        'dark-bg': '#141414',
+        'light-bg': '#292929',
+        'text-grey': '#B3B3B3',
+        'spotify-green': '#1ED760'
+      }
     },
   },
   plugins: [],

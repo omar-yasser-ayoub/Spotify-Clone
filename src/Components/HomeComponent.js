@@ -4,7 +4,7 @@ import ArtistComponent from "./ArtistComponent";
 import PodcastComponent from "./PodcastComponent";
 function HomeComponent(props) {
     return (
-      <div className="z-0 w-full absolute bg-gray-800 h-max bg-fixed">
+      <div className="z-0 w-full absolute bg-dark-bg h-max bg-fixed">
       <div className="mx-4">
         <h1 className="text-4xl font-semibold text-white mt-8">Good evening</h1> 
         <div className='grid grid-cols-2 gap-2 mt-6 justify-center items-center'>
@@ -20,8 +20,8 @@ function HomeComponent(props) {
         <h1 className="text-2xl font-semibold text-white mt-6">Jump back in</h1>
         <div className='overflow-y-hidden no-scrollbar -mx-4'>
           <div className="flex flex-row gap-2 mt-6 ml-4">
-            <ArtistComponent title="A Call" artist="EDEN" type="Single" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg"/>
-            <PodcastComponent title="bugging!" artist="brakence" type="Single" img="https://images.genius.com/08f7968612f58dfe31462ea1bbd29119.1000x1000x1.png"/>
+            <ArtistComponent title="A Call" artist="EDEN" type="Single" img="https://i.scdn.co/image/ab6761610000e5eb4c32f7043d79950ca79a7b0c"/>
+            <PodcastComponent title="The Magnus Archives" artist="Rusty Quill" img="https://m.media-amazon.com/images/I/513qiu+MaBL._SL500_.jpg"/>
             <AlbumComponent title="Optifine" artist="gabby start" type="Single" img="https://i1.sndcdn.com/artworks-qtTeFHOJZRXR-0-t500x500.jpg"/>
             <AlbumComponent title="SNAKE EYES" artist="Aries" type="Single" img="https://i1.sndcdn.com/artworks-BnfipywjD8HVOvhQ-kcZLxA-t500x500.jpg"/>
             <AlbumComponent title="Nothing" artist="Bruno Major" type="Single" img="https://i.scdn.co/image/ab67616d0000b273e321a69d7454d9365c667187"/>
