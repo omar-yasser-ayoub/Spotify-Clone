@@ -1,4 +1,4 @@
-import ArtistComponent from "./ArtistComponent";
+import ArtistComponent from "./AlbumComponent";
 import CardComponent from "./CardComponent";
 function LibraryComponent(props) {
     return (

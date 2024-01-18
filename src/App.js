@@ -6,7 +6,7 @@ import { ReactComponent as HomeSelectedSVG } from './Assets/HomeFilled.svg';
 import { ReactComponent as SearchSelectedSVG } from './Assets/SearchFilled.svg';
 import { ReactComponent as LibrarySelectedSVG } from './Assets/LibraryFilled.svg';
 import CardComponent from './Components/CardComponent';
-import ArtistComponent from './Components/ArtistComponent';
+import ArtistComponent from './Components/AlbumComponent';
 import HomeComponent from './Components/HomeComponent';
 import { useEffect, useState} from 'react';
 import PlayerComponent from './Components/PlayerComponent';
