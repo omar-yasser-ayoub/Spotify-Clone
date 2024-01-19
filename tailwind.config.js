@@ -18,7 +18,9 @@ module.exports = {
         'dark-bg': '#141414',
         'light-bg': '#292929',
         'text-grey': '#B3B3B3',
-        'spotify-green': '#1ED760'
+        'spotify-green': '#1ED760',
+        'search-bar-bg-light': '#191919',
+        'search-bar-bg': '#242424'
       }
     },
   },
