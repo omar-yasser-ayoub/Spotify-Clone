@@ -9,7 +9,7 @@ function SearchComponent(props) {
       <div className="z-0 w-full absolute bg-dark-bg h-max bg-fixed font-semibold text-white">
         <div className="mx-4">
           <h1 className="text-2xl mt-8">Search</h1> 
-          <SearchBarComponent/>
+          <SearchBarComponent token={props.token} />
           <h1 className="mt-8">Explore your genres</h1>
           <div className="grid grid-cols-3 -mx-2 mt-4">
             <VideoComponent genre="glitch" vid={vid1}/>

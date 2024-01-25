@@ -5,15 +5,43 @@ import { ReactComponent as LibrarySVG } from './Assets/Library.svg';
 import { ReactComponent as HomeSelectedSVG } from './Assets/HomeFilled.svg';
 import { ReactComponent as SearchSelectedSVG } from './Assets/SearchFilled.svg';
 import { ReactComponent as LibrarySelectedSVG } from './Assets/LibraryFilled.svg';
-import CardComponent from './Components/CardComponent';
-import ArtistComponent from './Components/AlbumComponent';
 import HomeComponent from './Components/HomeComponent';
 import { useEffect, useState} from 'react';
 import PlayerComponent from './Components/PlayerComponent';
 import SearchComponent from './Components/SearchComponent';
 import LibraryComponent from './Components/LibraryComponent';
+import axios from 'axios';
 
 function App() {
+
+  const CLIENT_ID = "35376654d86f4e22ae70c64f5b393483";
+  const REDIRECT_URI = "http://localhost:3000"
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
+  const RESPONSE_TYPE = "token"
+
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const hash = window.location.hash
+    let token = window.localStorage.getItem("token")
+
+    if (!token && hash) {
+        token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
+
+        window.location.hash = ""
+        window.localStorage.setItem("token", token)
+
+    }
+
+    setToken(token)
+    console.log(token)
+  }, [])
+
+  const logout = () => {
+    setToken("")
+    window.localStorage.removeItem("token")
+  }
+
 
   const [currentMenu, setMenu] = useState("Home");
   const [isAnimating, setAnimating] = useState(false);
@@ -52,9 +80,10 @@ function App() {
           <PlayerComponent/>
         </div>
       </div>
-      {currentMenu === "Home" && <HomeComponent/>}
-      {currentMenu === "Search" && <SearchComponent/>}
-      {currentMenu === "Library" && <LibraryComponent/>}
+      {!token ? <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a> : <button onClick={logout}>Logout</button>}
+      {currentMenu === "Home" && token != "" && <HomeComponent/>}
+      {currentMenu === "Search" && token != "" && <SearchComponent token={token}/>}
+      {currentMenu === "Library" && token != "" && <LibraryComponent/>}
     </div>
   );
 }
