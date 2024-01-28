@@ -5,10 +5,8 @@ import SearchArtist from './SearchArtist.js'
 import SearchAlbum from './SearchAlbum.js'
 function SearchBarComponent(props) {
   const [isSearching, setSearching] = useState(false);
-  const [artists, setArtists] = useState([])
-  const [albums, setAlbums] = useState([])
-  const [tracks, setTracks] = useState([])
-  const [searchKey, setSearchKey] = useState("")
+  const [searchitems, setSearchItems] = useState([])
+  const [searchKey,setSearchKey] = useState([])
 
 
   function handleSearch(e) {
@@ -16,80 +14,64 @@ function SearchBarComponent(props) {
     searchArtists();
   }
   const searchArtists = async () => {
+    if (searchKey.length <= 1){
+      setSearchItems([]);
+    }
     if (searchKey.length > 1) {
       try {
-        const artist = await axios.get("https://api.spotify.com/v1/search", {
+        const { data } = await axios.get("https://api.spotify.com/v1/search", {
           headers: {
             Authorization: `Bearer ${props.token}`,
           },
           params: {
             q: searchKey,
-            type: "artist"
+            type: "artist,track,album"
           }
         });
-        const album = await axios.get("https://api.spotify.com/v1/search", {
-          headers: {
-            Authorization: `Bearer ${props.token}`,
-          },
-          params: {
-            q: searchKey,
-            type: "album"
-          }
-        });
-        const track = await axios.get("https://api.spotify.com/v1/search", {
-          headers: {
-            Authorization: `Bearer ${props.token}`,
-          },
-          params: {
-            q: searchKey,
-            type: "track"
-          }
-        });
-        var totalItems = [...artist.data.artists.items, ...track.data.tracks.items];
-        totalItems.sort((a,b) => b.popularity - a.popularity);
-        
-        
-        setTracks(totalItems);
-        setAlbums(album.data.albums.items);
-        setArtists(artist.data.artists.items);
-        console.log(totalItems)
 
+        var artists = data.artists;
+        var albums = data.albums;
+        var tracks = data.tracks;
+        var total = new Set();
+
+        for (var i = 0; i < artists.items.length; i++) {
+          total.add(artists.items[i]);
+          for (var k = 0; k < albums.items.length; k++) {
+            for (var j = 0; j < albums.items[k].artists.length; j++) {
+              if (albums.items[k].artists[j].name === artists.items[i].name) {
+                total.add(albums.items[k]);
+              }
+            }
+          }
+          for (k = 0; k < tracks.items.length; k++) {
+            for (j = 0; j < tracks.items[k].artists.length; j++) {
+              if (tracks.items[k].artists[j].name === artists.items[i].name) {
+                total.add(tracks.items[k]);
+              }
+            }
+          }
+        }
+        console.log(Array.from(total))
+        setSearchItems(Array.from(total));
       } catch (error) {
         console.error("Error searching artists:", error);
       }
     }
   };
   const renderTotal = () => {
-    return tracks.map(track => (
-      <div key={track.id}>
-        {track.type === "track" ? 
-        (track.album.images.length ? <SearchAlbum name={track.name} img={track.album.images[0].url} artist={track.artists} /> : <SearchArtist artist={track.name} img="" />) :
-        (track.images.length ? <SearchArtist artist={track.name} img={track.images[0].url} /> : <SearchArtist artist={track.name} img="" />)
+    return searchitems.map(item => (
+      <div key={item.id}>
+        {item.type === "artist" 
+        ?
+        (item.images.length ? <SearchArtist artist={item.name} img={item.images[0].url} /> : <SearchArtist artist={item.name} img="" />)
+        : 
+        (item.type === "track" 
+        ?
+        (item.album.images.length ? <SearchAlbum name={item.name} img={item.album.images[0].url} artist={item.artists} /> : <SearchAlbum artist={item.name} img="" />)
+        :
+        (item.images.length ? <SearchAlbum name={item.name} img={item.images[0].url} artist={item.artists} /> : <SearchAlbum artist={item.name} img="" />)
+        )
         }
-      </div>
-    ))
-  }
-
-  const renderArtists = () => {
-    return artists.map(artist => (
-      <div key={artist.id}>
-        {artist.images.length ? <SearchArtist artist={artist.name} img={artist.images[0].url} /> : <SearchArtist artist={artist.name} img="" />}
-      </div>
-    ))
-  }
-  const renderAlbums = () => {
-    return albums.map(album => (
-      <div key={album.id}>
-        {album.images.length ? <SearchAlbum name={album.name} img={album.images[0].url} artist={album.artists} /> : <SearchArtist artist={album.name} img="" />}
-        
-      </div>
-    ))
-  }
-  const renderTracks = () => {
-    return tracks.map(track => (
-      <div key={track.id}>
-        {track.album.images.length ? <SearchAlbum name={track.name} img={track.album.images[0].url} artist={track.artists} /> : <SearchArtist artist={track.name} img="" />}
-        
       </div>
     ))
   }
@@ -105,8 +87,6 @@ function SearchBarComponent(props) {
               <SearchSVG width={20} height={20} className="mx-2 text-black"/>
               <h1 className="text-sm text-black">What do you want to listen to?</h1>
         </div>
-
-
         <div className= {isSearching ? 'absolute w-screen min-h-full bg-dark-bg left-0 top-0 z-10' : 'hidden' }>
           <div className='bg-search-bar-bg-light h-16 p-4 grid grid-cols-7 w-screen items-center'>
             <div className='bg-search-bar-bg p-2 col-span-6 text-sm text-text-grey rounded-xl inline-flex'>
@@ -119,7 +99,6 @@ function SearchBarComponent(props) {
           </div>
         <div className='mx-4 mt-4'>
           {renderTotal()}
-
         </div>  
         </div>
       </div>
