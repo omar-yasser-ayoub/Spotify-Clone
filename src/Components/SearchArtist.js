@@ -6,7 +6,7 @@ function SearchArtist(props) {
           <img src={props.img} className="h-2/4 w-3/12 rounded-full"></img>
           <div className="leading-tight text-left ml-4 items">
             <h1 className="font-semibold text-left">{props.artist}</h1>
-            <h1 className="font-semibold text-left ">Arist</h1>
+            <h1 className="font-semibold text-left text-text-grey ">Artist</h1>
           </div>
         </div>
         <div className='inline-flex items-right justify-end text-right'>
