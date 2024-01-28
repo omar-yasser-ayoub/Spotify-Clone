@@ -82,7 +82,7 @@ function App() {
       </div>
       {!token ? <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a> : <button onClick={logout}>Logout</button>}
       {currentMenu === "Home" && token != "" && <HomeComponent/>}
-      {currentMenu === "Search" && token != "" && <SearchComponent token={token}/>}
+      {currentMenu === "Search" && token != "" && <SearchComponent token={token} />}
       {currentMenu === "Library" && token != "" && <LibraryComponent/>}
     </div>
   );
