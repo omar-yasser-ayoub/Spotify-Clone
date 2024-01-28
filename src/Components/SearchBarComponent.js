@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ReactComponent as SearchSVG } from '../Assets/Search.svg';
 import axios from 'axios';
 import SearchArtist from './SearchArtist.js'
@@ -36,20 +36,22 @@ function SearchBarComponent(props) {
 
         for (var i = 0; i < artists.items.length; i++) {
           total.add(artists.items[i]);
-          for (var k = 0; k < albums.items.length; k++) {
-            for (var j = 0; j < albums.items[k].artists.length; j++) {
-              if (albums.items[k].artists[j].name === artists.items[i].name) {
-                total.add(albums.items[k]);
-              }
-            }
-          }
-          for (k = 0; k < tracks.items.length; k++) {
-            for (j = 0; j < tracks.items[k].artists.length; j++) {
+          for (var k = 0; k < tracks.items.length; k++) {
+            for (var j = 0; j < tracks.items[k].artists.length; j++) {
               if (tracks.items[k].artists[j].name === artists.items[i].name) {
                 total.add(tracks.items[k]);
               }
             }
           }
+          for (k = 0; k < albums.items.length; k++) {
+            for (j = 0; j < albums.items[k].artists.length; j++) {
+              if (albums.items[k].artists[j].name === artists.items[i].name) {
+                total.add(albums.items[k]);
+              }
+            }
+          }
+          total.add(albums.items[i])
+          total.add(tracks.items[i])
         }
         console.log(Array.from(total))
         setSearchItems(Array.from(total));
@@ -65,12 +67,12 @@ function SearchBarComponent(props) {
         ?
         (item.images.length ? <SearchArtist artist={item.name} img={item.images[0].url} /> : <SearchArtist artist={item.name} img="" />)
         : 
-        (item.type === "track" 
-        ?
-        (item.album.images.length ? <SearchAlbum name={item.name} img={item.album.images[0].url} artist={item.artists} /> : <SearchAlbum artist={item.name} img="" />)
-        :
-        (item.images.length ? <SearchAlbum name={item.name} img={item.images[0].url} artist={item.artists} /> : <SearchAlbum artist={item.name} img="" />)
-        )
+          (item.type === "track" 
+          ?
+          (item.album.images.length ? <SearchAlbum item={item}/> : <SearchAlbum artist={item.name} img="" />)
+          :
+          (item.images.length ? <SearchAlbum item={item} name={item.name} img={item.images[0].url} artist={item.artists} /> : <SearchAlbum artist={item.name} img="" />)
+          )
         }
       </div>
     ))

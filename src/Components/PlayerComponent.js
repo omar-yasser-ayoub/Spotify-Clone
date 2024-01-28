@@ -11,22 +11,86 @@ import { ReactComponent as LoopSVG } from '../Assets/Loop.svg';
 import { ReactComponent as ComputerSVG } from '../Assets/Computer.svg';
 import { ReactComponent as ShareSVG } from '../Assets/Share.svg';
 import { ReactComponent as HamburgerSVG } from '../Assets/Hamburger.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function PlayerComponent() {
+function PlayerComponent(props) {
   const [isPlayer,setPlayer] = useState(false);
+  const [averageColor, setAverageColor] = useState({ R: 0, G: 0, B: 0 });
+
+  useEffect(() => {
+    const getColor = (imgURL, ratio, callback) => {
+      const img = document.createElement('img');
+      img.crossOrigin = 'Anonymous';
+
+      img.onload = function () {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        context.drawImage(img, 0, 0);
+
+        let data, length;
+        let i = -4,
+          count = 0;
+        try {
+          data = context.getImageData(0, 0, canvas.width, canvas.height);
+          length = data.data.length;
+        } catch (err) {
+          console.error(err);
+          callback({
+            R: 0,
+            G: 0,
+            B: 0,
+          });
+          return;
+        }
+
+        let R = 0,
+          G = 0,
+          B = 0;
+        while ((i += ratio * 4) < length) {
+          ++count;
+          R += data.data[i];
+          G += data.data[i + 1];
+          B += data.data[i + 2];
+        }
+
+        R = ~~(R / count);
+        G = ~~(G / count);
+        B = ~~(B / count);
+
+        callback({
+          R,
+          G,
+          B,
+        });
+      };
+
+      img.src = imgURL;
+    };
+
+    getColor((props.item.album.images.length ? props.item.album.images[0].url: ""), 5, setAverageColor);
+  }, [props.item]);
+
+  const rgbColor = `rgb(${averageColor.R}, ${averageColor.G}, ${averageColor.B})`;
   function handleClick() {
     setPlayer(!isPlayer);
   }
     return (
       <div>
         <div className="absolute bottom-16 w-full h-20 ">
-          <div className="bg-gray-600 h-4/5 rounded-md mx-2 grid grid-cols-2 justify-center items-center" onClick={handleClick}>
+          <div style={{ backgroundColor: rgbColor, }} className="h-4/5 rounded-md mx-2 grid grid-cols-2 justify-center items-center" onClick={handleClick}>
             <div className='inline-flex'>
-              <img src='https://i.scdn.co/image/ab67616d0000b2730cffe2d0b92e5fa76c36913d' width={48} height={48} className='rounded-md mx-2'/>
+              <img src={props.item.album.images.length ? props.item.album.images[0].url: ""} width={48} height={48} className='rounded-md mx-2'/>
               <div className='ml-1 leading-snug'>
-                <h1 className='font-semibold text-white'>Reaching 2</h1>
-                <h1 className='text-text-grey'>EDEN</h1>
+                <h1 className='font-semibold text-white'>{props.item.name}</h1>
+                {props.item.artists.map((artist, index) => (
+                  <h1 key={index} className="font-semibold text-left text-text-grey">
+                  {artist.name}
+                  </h1>
+                ))}
               </div>
             </div>
             <div className='flex items-center justify-end'>
@@ -37,19 +101,23 @@ function PlayerComponent() {
             </div>
           </div>
         </div>
-        <div className={isPlayer ? 'absolute bottom-0 p-0 w-screen h-screen bg-gray-600  text-white' : 'hidden'}>
+        <div style={{ backgroundColor: rgbColor, }} className={isPlayer ? 'absolute bottom-0 p-0 w-screen h-screen  text-white' : 'hidden'}>
           <div className='grid grid-cols-3 mx-4 mt-20'>
             <ArrowSVG width={25} height={25} onClick={handleClick}/>
             <h1 className='text-center'>EDEN</h1>
             <DotSVG width={25} height={25} className="justify-self-end"/>
           </div>
           <div className='mx-6'>
-            <img src='https://i.scdn.co/image/ab67616d0000b2730cffe2d0b92e5fa76c36913d' className='rounded-2xl mt-20 w-full'/> 
+            <img src={props.item.album.images.length ? props.item.album.images[0].url: ""} className='rounded-2xl mt-20 w-full'/> 
           </div>
           <div className='grid grid-cols-2 mt-16 mx-4'>
             <div className='items-center'>
-              <h1 className='text-2xl font-bold'>Reaching 2</h1>
-              <h1 className='text-sm text-text-grey'>EDEN</h1>
+              <h1 className='text-2xl font-bold'>{props.item.name}</h1>
+              {props.item.artists.map((artist, index) => (
+                  <h1 key={index} className="font-semibold text-left text-text-grey text-sm">
+                  {artist.name}
+                  </h1>
+                ))}
             </div>
             <div className='inline-flex justify-end items-center'>
               <PlusSVG width={25} height={25} className=""/>

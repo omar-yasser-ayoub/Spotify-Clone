@@ -11,6 +11,8 @@ import PlayerComponent from './Components/PlayerComponent';
 import SearchComponent from './Components/SearchComponent';
 import LibraryComponent from './Components/LibraryComponent';
 import axios from 'axios';
+import React, { useContext } from 'react';
+import { AppContext } from './AppContext';
 
 function App() {
 
@@ -20,6 +22,12 @@ function App() {
   const RESPONSE_TYPE = "token"
 
   const [token, setToken] = useState("");
+
+  const { globalVariable, updateGlobalVariable } = useContext(AppContext);
+
+  const handleButtonClick = () => {
+    updateGlobalVariable('new value');
+  };
 
   useEffect(() => {
     const hash = window.location.hash
@@ -77,13 +85,14 @@ function App() {
               </div> 
           </div>
           {/*remember to change gradient to above div in the bottom*/}
-          <PlayerComponent/>
+          <PlayerComponent item={globalVariable}/>
         </div>
       </div>
       {!token ? <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a> : <button onClick={logout}>Logout</button>}
-      {currentMenu === "Home" && token != "" && <HomeComponent/>}
-      {currentMenu === "Search" && token != "" && <SearchComponent token={token} />}
-      {currentMenu === "Library" && token != "" && <LibraryComponent/>}
+      <h1>{globalVariable.name}</h1>
+      {currentMenu === "Home" && token !== "" && <HomeComponent/>}
+      {currentMenu === "Search" && token !== "" && <SearchComponent token={token} />}
+      {currentMenu === "Library" && token !== "" && <LibraryComponent/>}
     </div>
   );
 }
