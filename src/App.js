@@ -84,10 +84,9 @@ function App() {
               </div> 
           </div>
           {/*remember to change gradient to above div in the bottom*/}
-          <PlayerComponent item={globalVariable}/>
+          {globalVariable.name && <PlayerComponent item={globalVariable}/>}
         </div>
       </div>
-
       {!token ? <a href="http://localhost:8888/login">Login to Spotify</a> : <button onClick={logout}>Logout</button>}
       {currentMenu === "Home"  && <HomeComponent token={token}/>}
       {currentMenu === "Search"  && <SearchComponent token={token} />}
