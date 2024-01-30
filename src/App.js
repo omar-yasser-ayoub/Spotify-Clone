@@ -16,12 +16,10 @@ import { AppContext } from './AppContext';
 
 function App() {
 
-  const CLIENT_ID = "35376654d86f4e22ae70c64f5b393483";
-  const REDIRECT_URI = "http://localhost:3000"
-  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
-  const RESPONSE_TYPE = "token"
 
+  const [code, setCode] = useState("")
   const [token, setToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
 
   const { globalVariable, updateGlobalVariable } = useContext(AppContext);
 
@@ -32,21 +30,22 @@ function App() {
   useEffect(() => {
     const hash = window.location.hash
     let token = window.localStorage.getItem("token")
+    let refreshToken = window.localStorage.getItem("refreshToken")
 
     if (!token && hash) {
         token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
-
+        refreshToken = hash.substring(1).split("&").find(elem => elem.startsWith("refresh_token")).split("=")[1]
         window.location.hash = ""
+        window.localStorage.setItem("refreshToken", refreshToken)
         window.localStorage.setItem("token", token)
-
     }
-
+    setRefreshToken(refreshToken)
     setToken(token)
-    console.log(token)
   }, [])
 
   const logout = () => {
     setToken("")
+    setRefreshToken("")
     window.localStorage.removeItem("token")
   }
 
@@ -88,10 +87,11 @@ function App() {
           <PlayerComponent item={globalVariable}/>
         </div>
       </div>
-      {!token ? <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a> : <button onClick={logout}>Logout</button>}
-      {currentMenu === "Home" && token !== "" && <HomeComponent/>}
-      {currentMenu === "Search" && token !== "" && <SearchComponent token={token} />}
-      {currentMenu === "Library" && token !== "" && <LibraryComponent/>}
+
+      {!token ? <a href="http://localhost:8888/login">Login to Spotify</a> : <button onClick={logout}>Logout</button>}
+      {currentMenu === "Home"  && <HomeComponent token={token}/>}
+      {currentMenu === "Search"  && <SearchComponent token={token} />}
+      {currentMenu === "Library"  && <LibraryComponent/>}
     </div>
   );
 }

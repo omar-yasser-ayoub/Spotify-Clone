@@ -2,7 +2,25 @@ import AlbumComponent from "./AlbumComponent";
 import CardComponent from "./CardComponent";
 import ArtistComponent from "./ArtistComponent";
 import PodcastComponent from "./PodcastComponent";
+import { useEffect, useState } from "react";
+import axios from 'axios';
 function HomeComponent(props) {
+  const [recentData, setRecentData] = useState([]);
+  const generateRecent = async () => {
+      try {
+        const { data } = await axios.get("https://api.spotify.com/v1/me/top/artists", {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        });
+        console.log(data)
+      } catch (error) {
+        console.error("Error searching artists:", error);
+      }
+  };
+  useEffect(() => {
+    generateRecent();
+  },[]);
     return (
       <div className="z-0 w-full absolute bg-dark-bg h-max bg-fixed">
       <div className="mx-4">
