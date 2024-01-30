@@ -6,72 +6,155 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 function HomeComponent(props) {
   const [recentData, setRecentData] = useState([]);
+  const [favouriteArtists, setFavouriteArtists] = useState([]);
+  const [savedTracks, setSavedTracks] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const generateRecent = async () => {
-      try {
-        const { data } = await axios.get("https://api.spotify.com/v1/me/top/artists", {
+    try {
+      const [topArtistsResponse, topTracksResponse, savedTracksResponse] = await Promise.all([
+        axios.get("https://api.spotify.com/v1/me/top/artists", {
           headers: {
             Authorization: `Bearer ${props.token}`,
           },
-        });
-        console.log(data)
-      } catch (error) {
-        console.error("Error searching artists:", error);
+        }),
+        axios.get("https://api.spotify.com/v1/me/top/tracks", {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        }),
+        axios.get("https://api.spotify.com/v1/me/tracks", {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        }),
+      ]);
+      
+      const savedTracksData = savedTracksResponse.data;
+      const topArtistsData = topArtistsResponse.data;
+      const topTracksData = topTracksResponse.data;
+      var finalArray = new Set();
+
+      for (var i = 0; i < 4; i++) {
+        var added = false
+        finalArray.add(topArtistsData.items[i]);
+        for (var j = 0; j < 20 && added === false; j++) {
+          if (topTracksData.items[j]) {
+            for (var k = 0; k < topTracksData.items[j].artists.length; k++) {
+              if (topTracksData.items[j].artists[k].name === topArtistsData.items[i].name) {
+                finalArray.add(topTracksData.items[j]);
+                added = true;
+              }
+            }
+          }
+        }
+        if (i === 3 && finalArray.size < 8) {
+          for (var z = 8; z > finalArray.size; z--) {
+            finalArray.add(topArtistsData.items[z]);
+          }
+        }
       }
+
+      const genres = new Set()
+      for (i = 0; i <topArtistsData.items.length; i++) {
+        for (j = 0; j <topArtistsData.items[i].genres.length; j++) {
+          genres.add(topArtistsData.items[i].genres[j])
+        }
+      } 
+      const genresArray = Array.from(genres).slice(0,3)
+      const genresString = genresArray.join(', ');
+
+      const artists = new Set()
+      for (i = 0; i <topArtistsData.items.length; i++) {
+        artists.add(topArtistsData.items[i].id);
+      } 
+      const artistsArray = Array.from(artists).slice(0,1)
+      const artistString = artistsArray.join(', ');
+
+      const tracks = new Set()
+      for (i = 0; i <topTracksData.items.length; i++) {
+        tracks.add(topTracksData.items[i].id);
+      } 
+      const tracksArray = Array.from(tracks).slice(0,1)
+      const tracksString = tracksArray.join(', ');
+
+      const { data } = await axios.get("https://api.spotify.com/v1/recommendations", {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+          params: {
+            seed_artists: artistString,
+            seed_genres: genresString,
+            seed_tracks: tracksString
+          }
+      });
+
+      setRecommendations(data.tracks)
+      setRecentData(Array.from(finalArray))
+      setFavouriteArtists(topArtistsData.items)
+      setSavedTracks(savedTracksData.items)
+
+    } catch (error) {
+      console.error("Error searching artists:", error);
+    }
   };
   useEffect(() => {
     generateRecent();
-  },[]);
+  },[props.token]);
+
+  const renderRecent = () => {
+    return recentData.map(item => (
+      <div key={item.id}>
+        {item.type === "artist" 
+        ?
+        (item.images.length ? <CardComponent title={item.name} img={item.images[0].url} /> : <CardComponent artist={item.name} img="" />)
+        : 
+        (item.album.images.length ? <CardComponent title={item.name} img={item.album.images[0].url}/> : <CardComponent artist={item.name} img="" />)
+        }
+      </div>
+    ))
+  }
+  const renderArtists = () => {
+    return favouriteArtists.map(item => (
+      <ArtistComponent key={item.id} artist={item.name} img={item.images.length ? item.images[0].url : ""} />
+    ))
+  }
+
+  const renderTracks = () => {
+    return savedTracks.map(item => (
+      <AlbumComponent key={item.track.id} title={item.track.name} artist={item.track.artists[0].name} img={item.track.album.images.length ? item.track.album.images[0].url : "" }/>
+    ))
+  }
+
+  const renderRecommendations = () => {
+    return recommendations.map(item => (
+      <AlbumComponent key={item.id} title={item.name} artist={item.artists[0].name} img={item.album.images.length ? item.album.images[0].url : "" }/>
+    ))
+  }
+
+
     return (
       <div className="z-0 w-full absolute bg-dark-bg h-max bg-fixed">
       <div className="mx-4">
         <h1 className="text-4xl font-semibold text-white mt-8">Good evening</h1> 
         <div className='grid grid-cols-2 gap-2 mt-6 justify-center items-center'>
-          <CardComponent title="A Call" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg"/>
-          <CardComponent title="bugging!" img="https://images.genius.com/08f7968612f58dfe31462ea1bbd29119.1000x1000x1.png"/>
-          <CardComponent title="Optifine" img="https://i1.sndcdn.com/artworks-qtTeFHOJZRXR-0-t500x500.jpg"/>
-          <CardComponent title="SNAKE EYES" img="https://i1.sndcdn.com/artworks-BnfipywjD8HVOvhQ-kcZLxA-t500x500.jpg"/>
-          <CardComponent title="Nothing" img="https://i.scdn.co/image/ab67616d0000b273e321a69d7454d9365c667187"/>
-          <CardComponent title="Sydney" img="https://i1.sndcdn.com/artworks-r8yJcb53CvzhMqrC-XqRXTQ-t500x500.jpg"/>
-          <CardComponent title="Ogden" img="https://images.genius.com/9173547e28544b1f66ff12a3b4e75b02.1000x1000x1.jpg"/>
-          <CardComponent title="CABIN FEVER" img="https://i1.sndcdn.com/artworks-fcgacUsVJnMdw86Q-OYdcvw-t500x500.jpg"/>
+          {renderRecent()}
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6">Jump back in</h1>
         <div className='overflow-y-hidden no-scrollbar -mx-4'>
           <div className="flex flex-row gap-2 mt-6 ml-4">
-            <ArtistComponent title="A Call" artist="EDEN" type="Single" img="https://i.scdn.co/image/ab6761610000e5eb4c32f7043d79950ca79a7b0c"/>
-            <PodcastComponent title="The Magnus Archives" artist="Rusty Quill" img="https://m.media-amazon.com/images/I/513qiu+MaBL._SL500_.jpg"/>
-            <AlbumComponent title="Optifine" artist="gabby start" type="Single" img="https://i1.sndcdn.com/artworks-qtTeFHOJZRXR-0-t500x500.jpg"/>
-            <AlbumComponent title="SNAKE EYES" artist="Aries" type="Single" img="https://i1.sndcdn.com/artworks-BnfipywjD8HVOvhQ-kcZLxA-t500x500.jpg"/>
-            <AlbumComponent title="Nothing" artist="Bruno Major" type="Single" img="https://i.scdn.co/image/ab67616d0000b273e321a69d7454d9365c667187"/>
-            <AlbumComponent title="Sydney" artist="gabby start" type="Single" img="https://i1.sndcdn.com/artworks-r8yJcb53CvzhMqrC-XqRXTQ-t500x500.jpg"/>
-            <AlbumComponent title="Ogden" artist="gabby start" type="Single" img="https://images.genius.com/9173547e28544b1f66ff12a3b4e75b02.1000x1000x1.jpg"/>
-            <AlbumComponent title="CABIN FEVER" artist="Aries" type="Single" img="https://i1.sndcdn.com/artworks-fcgacUsVJnMdw86Q-OYdcvw-t500x500.jpg"/>
+            {renderTracks()}
           </div>
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6">Your favourite artists</h1>
-        <div className='overflow-y-hidden no-scrollbar -mx-4'>
-          <div className="flex flex-row gap-2 mt-6 ml-4">
-            <AlbumComponent title="A Call" artist="EDEN" type="Single" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg"/>
-            <AlbumComponent title="bugging!" artist="brakence" type="Single" img="https://images.genius.com/08f7968612f58dfe31462ea1bbd29119.1000x1000x1.png"/>
-            <AlbumComponent title="Optifine" artist="gabby start" type="Single" img="https://i1.sndcdn.com/artworks-qtTeFHOJZRXR-0-t500x500.jpg"/>
-            <AlbumComponent title="SNAKE EYES" artist="Aries" type="Single" img="https://i1.sndcdn.com/artworks-BnfipywjD8HVOvhQ-kcZLxA-t500x500.jpg"/>
-            <AlbumComponent title="Nothing" artist="Bruno Major" type="Single" img="https://i.scdn.co/image/ab67616d0000b273e321a69d7454d9365c667187"/>
-            <AlbumComponent title="Sydney" artist="gabby start" type="Single" img="https://i1.sndcdn.com/artworks-r8yJcb53CvzhMqrC-XqRXTQ-t500x500.jpg"/>
-            <AlbumComponent title="Ogden" artist="gabby start" type="Single" img="https://images.genius.com/9173547e28544b1f66ff12a3b4e75b02.1000x1000x1.jpg"/>
-            <AlbumComponent title="CABIN FEVER" artist="Aries" type="Single" img="https://i1.sndcdn.com/artworks-fcgacUsVJnMdw86Q-OYdcvw-t500x500.jpg"/>
+        <div className=' overflow-y-hidden no-scrollbar -mx-4'>
+          <div className="w-full flex flex-row gap-2 mt-6 ml-4">
+            {renderArtists()}
           </div>
         </div>
-        <h1 className="text-2xl font-semibold text-white mt-6">Your favourite artists</h1>
+        <h1 className="text-2xl font-semibold text-white mt-6">Recommended Songs</h1>
         <div className='overflow-y-hidden no-scrollbar -mx-4'>
           <div className="flex flex-row gap-2 mt-6 ml-4">
-            <AlbumComponent title="A Call" artist="EDEN" type="Single" img="https://i1.sndcdn.com/artworks-qqdzEemx0vyT2Rr9-s2yzZw-t500x500.jpg"/>
-            <AlbumComponent title="bugging!" artist="brakence" type="Single" img="https://images.genius.com/08f7968612f58dfe31462ea1bbd29119.1000x1000x1.png"/>
-            <AlbumComponent title="Optifine" artist="gabby start" type="Single" img="https://i1.sndcdn.com/artworks-qtTeFHOJZRXR-0-t500x500.jpg"/>
-            <AlbumComponent title="SNAKE EYES" artist="Aries" type="Single" img="https://i1.sndcdn.com/artworks-BnfipywjD8HVOvhQ-kcZLxA-t500x500.jpg"/>
-            <AlbumComponent title="Nothing" artist="Bruno Major" type="Single" img="https://i.scdn.co/image/ab67616d0000b273e321a69d7454d9365c667187"/>
-            <AlbumComponent title="Sydney" artist="gabby start" type="Single" img="https://i1.sndcdn.com/artworks-r8yJcb53CvzhMqrC-XqRXTQ-t500x500.jpg"/>
-            <AlbumComponent title="Ogden" artist="gabby start" type="Single" img="https://images.genius.com/9173547e28544b1f66ff12a3b4e75b02.1000x1000x1.jpg"/>
-            <AlbumComponent title="CABIN FEVER" artist="Aries" type="Single" img="https://i1.sndcdn.com/artworks-fcgacUsVJnMdw86Q-OYdcvw-t500x500.jpg"/>
+            {renderRecommendations()}
           </div>
         </div>
         <div className="h-40">

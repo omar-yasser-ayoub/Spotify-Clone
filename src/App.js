@@ -64,7 +64,7 @@ function App() {
     handleClick();
   }
   return (
-    <div>
+    <div className='w-screen h-screen'>
       <div className="z-10 -bottom-0.5 w-full fixed">
         <div>
           <div className="bg-gradient-to-t from-black to-transparent absolute -bottom-0.5 w-full h-60 ">
