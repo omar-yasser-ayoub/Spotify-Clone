@@ -9,6 +9,7 @@ function HomeComponent(props) {
   const [favouriteArtists, setFavouriteArtists] = useState([]);
   const [savedTracks, setSavedTracks] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [isLoaded, setLoaded] = useState(false);
   const generateRecent = async () => {
     try {
       const [topArtistsResponse, topTracksResponse, savedTracksResponse] = await Promise.all([
@@ -92,7 +93,7 @@ function HomeComponent(props) {
       setRecentData(Array.from(finalArray))
       setFavouriteArtists(topArtistsData.items)
       setSavedTracks(savedTracksData.items)
-
+      setLoaded(true)
     } catch (error) {
       console.error("Error searching artists:", error);
     }
@@ -106,9 +107,9 @@ function HomeComponent(props) {
       <div key={item.id}>
         {item.type === "artist" 
         ?
-        (item.images.length ? <CardComponent title={item.name} img={item.images[0].url} /> : <CardComponent artist={item.name} img="" />)
+        (<CardComponent title={item.name} img={item.images[0].url} isLoaded={isLoaded} />)
         : 
-        (item.album.images.length ? <CardComponent title={item.name} img={item.album.images[0].url}/> : <CardComponent artist={item.name} img="" />)
+        (<CardComponent title={item.name} img={item.album.images[0].url} isLoaded={isLoaded} /> )
         }
       </div>
     ))
@@ -130,6 +131,34 @@ function HomeComponent(props) {
       <AlbumComponent key={item.id} title={item.name} artist={item.artists[0].name} img={item.album.images.length ? item.album.images[0].url : "" }/>
     ))
   }
+  const recentLoadingDiv = () => {
+    const items = []
+    for (let i = 0; i < 8; i++) {
+      items.push(
+        <div className="h-16 w-full rounded-md bg-light-bg text-white justify-start items-center inline-flex">
+          <div className="h-full rounded-l-md aspect-square bg-text-grey animate-pulse" />
+          <div className="grid grid-cols-2 w-full px-4">
+            <div className="h-2 w-full col-span-2 rounded bg-text-grey animate-pulse">
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return items 
+  }
+  const tracksLoadingDiv = () => {
+    const items = []
+  for (let i = 0; i < 8; i++) {
+    items.push(
+      <div className="h-6/12 w-5/12 rounded-md justify-start items-center flex-shrink-0 text-sm pr-4 leading-tight">
+        <div className="w-full aspect-square animate-pulse bg-light-bg" />
+        <div className=" w-3/4 rounded h-2 mt-2 bg-light-bg animate-pulse" />
+        <div className=" w-3/5 rounded h-2 mt-2 bg-light-bg animate-pulse" />
+      </div>
+    );
+  }
+  return items
+  }
 
 
     return (
@@ -137,24 +166,24 @@ function HomeComponent(props) {
       <div className="mx-4">
         <h1 className="text-4xl font-semibold text-white mt-8">Good evening</h1> 
         <div className='grid grid-cols-2 gap-2 mt-6 justify-center items-center'>
-          {renderRecent()}
+          {isLoaded ? renderRecent() : recentLoadingDiv()}
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6">Jump back in</h1>
         <div className='overflow-y-hidden no-scrollbar -mx-4'>
           <div className="flex flex-row gap-2 mt-6 ml-4">
-            {renderTracks()}
+            {isLoaded ? renderTracks() : tracksLoadingDiv()}
           </div>
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6">Your favourite artists</h1>
         <div className=' overflow-y-hidden no-scrollbar -mx-4'>
           <div className="w-full flex flex-row gap-2 mt-6 ml-4">
-            {renderArtists()}
+          {isLoaded ? renderArtists() : tracksLoadingDiv()}
           </div>
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6">Recommended Songs</h1>
         <div className='overflow-y-hidden no-scrollbar -mx-4'>
           <div className="flex flex-row gap-2 mt-6 ml-4">
-            {renderRecommendations()}
+          {isLoaded ? renderRecommendations() : tracksLoadingDiv()}
           </div>
         </div>
         <div className="h-40">

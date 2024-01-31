@@ -121,7 +121,7 @@ function PlayerComponent(props) {
                   {props.item.artists.map((artist, index) => (
                     <h1 key={index} className="text-sm  text-white flex-shrink-0">
                       {artist.name}
-                      {index < props.item.artists.length - 1 && ",\u00A0"} {/* Add comma if not the last artist */}
+                      {index < props.item.artists.length - 1 && ",\u00A0"}
                     </h1>
                    ))}
                 </div>
@@ -137,7 +137,7 @@ function PlayerComponent(props) {
                 {props.item.artists.map((artist, index) => (
                   <h1 key={index} className="text-sm text-left text-text-grey flex-shrink-0">
                     {artist.name}
-                    {index < props.item.artists.length - 1 && ",\u00A0"} {/* Add comma if not the last artist */}
+                    {index < props.item.artists.length - 1 && ",\u00A0"}
                   </h1>
                 ))}
               </div>
