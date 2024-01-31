@@ -85,9 +85,9 @@ function SearchBarComponent(props) {
   }
     return (
       <div>
-        <div className="inline-flex rounded-md bg-white p-3 mt-4 w-full" onClick={handleClick}>
+        <div className="inline-flex rounded-md bg-white p-3 mt-4 w-full font items-center" onClick={handleClick}>
               <SearchSVG width={20} height={20} className="mx-2 text-black"/>
-              <h1 className="text-sm text-black">What do you want to listen to?</h1>
+              <h1 className="text-sm text-black mt-1">What do you want to listen to?</h1>
         </div>
         <div className= {isSearching ? 'absolute w-screen min-h-full bg-dark-bg left-0 top-0 z-10' : 'hidden' }>
           <div className='bg-search-bar-bg-light h-16 p-4 grid grid-cols-7 w-screen items-center'>

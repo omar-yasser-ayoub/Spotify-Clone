@@ -87,7 +87,20 @@ function App() {
           {globalVariable.name && <PlayerComponent item={globalVariable}/>}
         </div>
       </div>
-      {!token ? <a href="http://localhost:8888/login">Login to Spotify</a> : <button onClick={logout}>Logout</button>}
+      { currentMenu === "Home" && <div className="w-full h-24 bg-dark-bg text-white">
+        <div className="h-full mx-4 grid grid-cols-3 justify-center items-center">
+          <h1 className="text-4xl font-SpotifyCircular-Medium text-white col-span-2">Good evening</h1> 
+          {!token ? (
+            <a href="http://localhost:8888/login" className='bg-spotify-green text-white font-bold py-2 px-4 rounded-full text-center'>
+              Login
+            </a>
+          ) : (
+            <button onClick={logout} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full'>
+              Logout
+            </button>
+          )}
+        </div>
+      </div>}
       {currentMenu === "Home"  && <HomeComponent token={token}/>}
       {currentMenu === "Search"  && <SearchComponent token={token} />}
       {currentMenu === "Library"  && <LibraryComponent/>}

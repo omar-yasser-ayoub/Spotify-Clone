@@ -87,7 +87,7 @@ function PlayerComponent(props) {
     setPlaying(!isPlaying);
   }
     return (
-      <div>
+      <div className='font-SpotifyCircular-Medium'>
         <ReactPlayer playing={isPlaying} volume ={volume}  url={props.item.preview_url} height={0} width={0}/>
         <div className="absolute bottom-16 w-full h-20 ">
           <div style={{ backgroundColor: rgbColor, }} className="h-4/5 rounded-md mx-2 grid grid-cols-2 justify-center items-center" onClick={handleClick}>

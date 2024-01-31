@@ -6,7 +6,7 @@ import GenreComponent from "./GenreComponent";
 import SearchBarComponent from "./SearchBarComponent";
 function SearchComponent(props) {
     return (
-      <div className="z-0 w-full absolute bg-dark-bg h-max bg-fixed font-semibold text-white">
+      <div className="z-0 w-full absolute bg-dark-bg h-max bg-fixed  text-white font-SpotifyCircular-Medium">
         <div className="mx-4">
           <h1 className="text-2xl mt-8">Search</h1> 
           <SearchBarComponent token={props.token} />

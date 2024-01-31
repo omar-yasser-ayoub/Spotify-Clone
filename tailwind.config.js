@@ -21,6 +21,11 @@ module.exports = {
         'spotify-green': '#1ED760',
         'search-bar-bg-light': '#191919',
         'search-bar-bg': '#242424'
+      },
+      fontFamily: {
+        'SpotifyCircular-Light': ['SpotifyCircular-Light', 'sans'],
+        'SpotifyCircular-Medium': ['SpotifyCircular-Medium', 'sans'],
+        'SpotifyCircular-Bold': ['SpotifyCircular-Bold', 'sans']
       }
     },
   },
