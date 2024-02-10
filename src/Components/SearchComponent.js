@@ -1,7 +1,7 @@
 import VideoComponent from "./VideoComponent";
-import vid1 from "./Videos\\Brakence.mp4";
-import vid2 from "./Videos\\Eden.mp4";
-import vid3 from "./Videos\\Riff.mp4";
+import vid1 from "./Videos/Brakence.mp4";
+import vid2 from "./Videos/Eden.mp4";
+import vid3 from "./Videos/Riff.mp4";
 import GenreComponent from "./GenreComponent";
 import SearchBarComponent from "./SearchBarComponent";
 function SearchComponent(props) {

@@ -34,9 +34,10 @@ function HomeComponent(props) {
       const savedTracksData = savedTracksResponse.data;
       const topArtistsData = topArtistsResponse.data;
       const topTracksData = topTracksResponse.data;
+
       var finalArray = new Set();
 
-      for (var i = 0; i < 4; i++) {
+      for (var i = 0; finalArray.size < 8; i++) {
         var added = false
         finalArray.add(topArtistsData.items[i]);
         for (var j = 0; j < 20 && added === false; j++) {
@@ -48,12 +49,7 @@ function HomeComponent(props) {
               }
             }
           }
-        }
-        if (i === 3 && finalArray.size < 8) {
-          for (var z = 8; z > finalArray.size; z--) {
-            finalArray.add(topArtistsData.items[z]);
-          }
-        }
+        }    
       }
 
       const genres = new Set()
@@ -79,19 +75,20 @@ function HomeComponent(props) {
       const tracksArray = Array.from(tracks).slice(0,1)
       const tracksString = tracksArray.join(', ');
 
-      const { data } = await axios.get("https://api.spotify.com/v1/recommendations", {
-          headers: {
-            Authorization: `Bearer ${props.token}`,
-          },
-          params: {
-            seed_artists: artistString,
-            seed_genres: genresString,
-            seed_tracks: tracksString
-          }
-      });
+      // const { data } = await axios.get("https://api.spotify.com/v1/recommendations", {
+      //     headers: {
+      //       Authorization: `Bearer ${props.token}`,
+      //     },
+      //     params: {
+      //       seed_artists: artistString,
+      //       seed_genres: genresString,
+      //       seed_tracks: tracksString
+      //     }
+      // });
 
-      setRecommendations(data.tracks)
+      // setRecommendations(data.tracks)
       setRecentData(Array.from(finalArray))
+      console.log(topArtistsData, topTracksData)
       setFavouriteArtists(topArtistsData.items)
       setSavedTracks(savedTracksData.items)
       setLoaded(true)

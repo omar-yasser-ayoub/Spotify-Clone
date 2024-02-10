@@ -14,7 +14,7 @@ function SearchAlbum(props) {
   };
     return (
       <div className="text-white justify-start items-center grid grid-cols-2 text-sm my-4" onClick={handleButtonClick}>
-        <div className="inline-flex items-center justify-start">
+        <div className="inline-flex items-center justify-start max-w-xs">
           {props.item.type === "album" ? <img src={props.item.images[0].url} className="h-2/4 w-3/12"/> : <img src={props.item.album.images[0].url} className="h-2/4 w-3/12"/>}
           <div className="leading-tight text-left ml-4 items">
             <h1 className="font-semibold text-left">{props.item.name}</h1>
