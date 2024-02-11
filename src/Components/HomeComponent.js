@@ -75,18 +75,18 @@ function HomeComponent(props) {
       const tracksArray = Array.from(tracks).slice(0,1)
       const tracksString = tracksArray.join(', ');
 
-      // const { data } = await axios.get("https://api.spotify.com/v1/recommendations", {
-      //     headers: {
-      //       Authorization: `Bearer ${props.token}`,
-      //     },
-      //     params: {
-      //       seed_artists: artistString,
-      //       seed_genres: genresString,
-      //       seed_tracks: tracksString
-      //     }
-      // });
+      const { data } = await axios.get("https://api.spotify.com/v1/recommendations", {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+          params: {
+            seed_artists: artistString,
+            seed_genres: genresString,
+            seed_tracks: tracksString
+          }
+      });
 
-      // setRecommendations(data.tracks)
+      setRecommendations(data.tracks)
       setRecentData(Array.from(finalArray))
       console.log(topArtistsData, topTracksData)
       setFavouriteArtists(topArtistsData.items)

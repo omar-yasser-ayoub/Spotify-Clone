@@ -66,7 +66,40 @@ function App() {
   return (
     <div className='w-screen h-screen'>
       <div className='hidden md:block'>
-        <h1>DESKTOP</h1>
+        <div className='w-full h-screen bg-black text-white'>
+          <div className='grid grid-cols-5 h-5/6'>
+              <div className='max-h-screen col-span-1 h-full'>
+                <div className='p-1 h-1/6'>
+                  <div className='bg-dark-bg rounded-md h-full flex flex-col'>
+                    <div className='inline-flex h-1/2 items-center justify-start'>
+                      <h1>logo</h1>
+                      <h1>home</h1>
+                    </div>
+                    <div className='inline-flex h-1/2 items-center justify-start'>
+                      <h1>logo</h1>
+                      <h1>home</h1>
+                    </div>
+                  </div>
+                </div>
+                <div className='p-1 h-5/6 '>
+                  <div className='bg-dark-bg rounded-md h-full'>
+                    <h1>test</h1>
+                  </div>
+                </div>
+              </div>
+              
+            <div className='p-1 h-full col-span-4'>
+              <div className='bg-dark-bg rounded-md h-full '>
+                <h1>test</h1>
+              </div>
+            </div>
+          </div>
+          <div className='p-1 h-1/6'>
+            <div className='bg-dark-bg h-full rounded-md'>
+              <h1>Player</h1>
+            </div>
+          </div>
+        </div>
       </div>
       <div className='md:hidden'>
         <div className="z-10 -bottom-0.5 w-full fixed">

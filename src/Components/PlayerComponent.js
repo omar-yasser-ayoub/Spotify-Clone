@@ -128,7 +128,7 @@ function PlayerComponent(props) {
             <DotSVG width={25} height={25} className="justify-self-end"/>
           </div>
           <div className='mx-6'>
-            <img src={props.item.type === "track" ? (props.item.album.images.length ? props.item.album.images[0].url: "") : ""}  className='rounded-2xl mt-20 w-full max-w-md mx-auto'/> 
+            <img src={props.item.type === "track" ? (props.item.album.images.length ? props.item.album.images[0].url: "") : ""}  className='rounded-2xl mt-20 w-full max-w-sm mx-auto'/> 
           </div>
           <div className='grid grid-cols-2 mt-16 mx-4'>
             <div className='items-center'>
