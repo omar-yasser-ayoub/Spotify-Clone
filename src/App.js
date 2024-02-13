@@ -10,7 +10,7 @@ import { useEffect, useState} from 'react';
 import PlayerComponent from './Components/PlayerComponent';
 import SearchComponent from './Components/SearchComponent';
 import LibraryComponent from './Components/LibraryComponent';
-import axios from 'axios';
+import ReactPlayer from 'react-player';
 import React, { useContext } from 'react';
 import { AppContext } from './AppContext';
 
@@ -20,6 +20,8 @@ function App() {
   const [code, setCode] = useState("")
   const [token, setToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
+  const [isPlaying,setPlaying] = useState(false);
+  const [volume,setVolume] = useState(0.25);
 
   const { globalVariable, updateGlobalVariable } = useContext(AppContext);
 
@@ -63,21 +65,25 @@ function App() {
     setMenu(Menu);
     handleClick();
   }
+  const handlePlayPause = () => {
+    setPlaying(!isPlaying)
+  }
   return (
     <div className='w-screen h-screen'>
+      <ReactPlayer playing={isPlaying} volume ={volume}  url={globalVariable.preview_url} height={0} width={0}/>
       <div className='hidden md:block'>
         <div className='w-full h-screen bg-black text-white'>
           <div className='grid grid-cols-5 h-5/6'>
               <div className='max-h-screen col-span-1 h-full'>
                 <div className='p-1 h-1/6'>
                   <div className='bg-dark-bg rounded-md h-full flex flex-col'>
-                    <div className='inline-flex h-1/2 items-center justify-start'>
-                      <h1>logo</h1>
-                      <h1>home</h1>
+                    <div className='inline-flex h-1/2 items-center justify-start' onClick={() => handleMenuClick("Home")}>
+                      {currentMenu === "Home" ? (<HomeSelectedSVG width={25} height={25} className="mx-4"/>) : (<HomeSVG width={25} height={25} className="mx-4"/>)}
+                      <h1>Home</h1>
                     </div>
-                    <div className='inline-flex h-1/2 items-center justify-start'>
-                      <h1>logo</h1>
-                      <h1>home</h1>
+                    <div className='inline-flex h-1/2 items-center justify-start' onClick={() => handleMenuClick("Search")}>
+                      {currentMenu === "Search" ? (<SearchSelectedSVG width={25} height={25} className="mx-4"/>) : (<SearchSVG width={25} height={25} className="mx-4" />)}
+                      <h1>Search</h1>
                     </div>
                   </div>
                 </div>
@@ -86,17 +92,16 @@ function App() {
                     <h1>test</h1>
                   </div>
                 </div>
-              </div>
-              
+              </div> 
             <div className='p-1 h-full col-span-4'>
               <div className='bg-dark-bg rounded-md h-full '>
-                <h1>test</h1>
+                {currentMenu === "Home" ? "Home" : "Search"}
               </div>
             </div>
           </div>
-          <div className='p-1 h-1/6'>
+          <div className='p-1 h-28'>
             <div className='bg-dark-bg h-full rounded-md'>
-              <h1>Player</h1>
+            {globalVariable.name && <PlayerComponent isPlaying={isPlaying} handlePlayPause={handlePlayPause} item={globalVariable}/>}
             </div>
           </div>
         </div>
@@ -120,8 +125,7 @@ function App() {
                   <h1 className="mt-1">Your Library</h1>
                 </div> 
             </div>
-            {/*remember to change gradient to above div in the bottom*/}
-            {globalVariable.name && <PlayerComponent item={globalVariable}/>}
+            {globalVariable.name && <PlayerComponent isPlaying={isPlaying} handlePlayPause={handlePlayPause} item={globalVariable}/>}
           </div>
         </div>
         { currentMenu === "Home" && <div className="w-full h-24 bg-dark-bg text-white">
