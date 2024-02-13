@@ -74,7 +74,7 @@ function App() {
       <div className='hidden md:block'>
         <div className='w-full h-screen bg-black text-white'>
           <div className='grid grid-cols-5 h-5/6'>
-              <div className='max-h-screen col-span-1 h-full'>
+              <div className='max-h-full col-span-1 h-full'>
                 <div className='p-1 h-1/6'>
                   <div className='bg-dark-bg rounded-md h-full flex flex-col'>
                     <div className='inline-flex h-1/2 items-center justify-start' onClick={() => handleMenuClick("Home")}>
@@ -87,15 +87,18 @@ function App() {
                     </div>
                   </div>
                 </div>
-                <div className='p-1 h-5/6 '>
+                <div className='p-1 h-5/6 max-h-5/6 '>
                   <div className='bg-dark-bg rounded-md h-full'>
                     <h1>test</h1>
                   </div>
                 </div>
               </div> 
-            <div className='p-1 h-full col-span-4'>
-              <div className='bg-dark-bg rounded-md h-full '>
-                {currentMenu === "Home" ? "Home" : "Search"}
+            <div className='p-1 h-full col-span-4 overflow-y-scroll rounded-md'>
+              <div className='bg-dark-bg rounded-md '>
+                <h1 className="text-4xl font-SpotifyCircular-Medium text-white col-span-2 pt-8 pl-4">Good evening</h1> 
+                <div className='bg-dark-bg rounded-md h-full '>
+                  {currentMenu === "Home" ? <HomeComponent token={token}/> : "Search"}
+                </div>
               </div>
             </div>
           </div>
