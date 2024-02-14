@@ -111,7 +111,7 @@ function HomeComponent(props) {
           </div>)
           : 
           (<div>
-            <CardComponent item={item} title={item.name} img={item.album.images[0].url} isLoaded={isLoaded} />
+            <CardComponent isPlaying={props.isPlaying} pause = {props.pause} play={props.play}  item={item} title={item.name} img={item.album.images[0].url} isLoaded={isLoaded} />
           </div>)
         }
       </div>
@@ -126,13 +126,13 @@ function HomeComponent(props) {
 
   const renderTracks = () => {
     return savedTracks.map(item => (
-      <AlbumComponent item={item.track}  key={item.track.id} title={item.track.name} artist={item.track.artists[0].name} img={item.track.album.images.length ? item.track.album.images[0].url : "" }/>
+      <AlbumComponent isPlaying={props.isPlaying} pause = {props.pause} play={props.play} item={item.track}  key={item.track.id} title={item.track.name} artist={item.track.artists[0].name} img={item.track.album.images.length ? item.track.album.images[0].url : "" }/>
     ))
   }
 
   const renderRecommendations = () => {
     return recommendations.map(item => (
-      <AlbumComponent item={item}  key={item.id} title={item.name} artist={item.artists[0].name} img={item.album.images.length ? item.album.images[0].url : "" }/>
+      <AlbumComponent isPlaying={props.isPlaying} pause = {props.pause} play={props.play} item={item}  key={item.id} title={item.name} artist={item.artists[0].name} img={item.album.images.length ? item.album.images[0].url : "" }/>
     ))
   }
   const recentLoadingDiv = () => {
@@ -173,23 +173,23 @@ function HomeComponent(props) {
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6 font-SpotifyCircular-Medium">Jump back in</h1>
         <div className='overflow-y-hidden no-scrollbar -mx-4'>
-          <div className="flex flex-row gap-2 mt-6 ml-4">
+          <div className="flex flex-row gap-2 mt-6 ml-4 md:gap-6">
             {isLoaded ? renderTracks() : tracksLoadingDiv()}
           </div>
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6 font-SpotifyCircular-Medium">Your favourite artists</h1>
         <div className=' overflow-y-hidden no-scrollbar -mx-4'>
-          <div className="w-full flex flex-row gap-2 mt-6 ml-4">
+          <div className="w-full flex flex-row gap-2 mt-6 ml-4 md:gap-6">
           {isLoaded ? renderArtists() : tracksLoadingDiv()}
           </div>
         </div>
         <h1 className="text-2xl font-semibold text-white mt-6 font-SpotifyCircular-Medium">Recommended Songs</h1>
         <div className='overflow-y-hidden no-scrollbar -mx-4'>
-          <div className="flex flex-row gap-2 mt-6 ml-4">
+          <div className="flex flex-row gap-2 mt-6 ml-4 md:gap-6">
           {isLoaded ? renderRecommendations() :tracksLoadingDiv()}
           </div>
         </div>
-        <div className="h-44 md:hidden">
+        <div className="h-44 md:h-4">
 
         </div>
       </div>

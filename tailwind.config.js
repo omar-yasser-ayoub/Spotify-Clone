@@ -20,7 +20,8 @@ module.exports = {
         'text-grey': '#B3B3B3',
         'spotify-green': '#1ED760',
         'search-bar-bg-light': '#191919',
-        'search-bar-bg': '#242424'
+        'search-bar-bg': '#242424',
+        'home-card-bg':'#171717'
       },
       fontFamily: {
         'SpotifyCircular-Light': ['SpotifyCircular-Light', 'sans'],
@@ -29,5 +30,7 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-animated')
+  ],
 }

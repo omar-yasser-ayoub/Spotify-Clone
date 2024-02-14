@@ -68,6 +68,12 @@ function App() {
   const handlePlayPause = () => {
     setPlaying(!isPlaying)
   }
+  function pause() {
+    setPlaying(false)
+  }
+  function play() {
+    setPlaying(true)
+  }
   return (
     <div className='w-screen h-screen'>
       <ReactPlayer playing={isPlaying} volume ={volume}  url={globalVariable.preview_url} height={0} width={0}/>
@@ -97,7 +103,7 @@ function App() {
               <div className='bg-dark-bg rounded-md '>
                 <h1 className="text-4xl font-SpotifyCircular-Medium text-white col-span-2 pt-8 pl-4">Good evening</h1> 
                 <div className='bg-dark-bg rounded-md h-full '>
-                  {currentMenu === "Home" ? <HomeComponent token={token}/> : "Search"}
+                  {currentMenu === "Home" ? <HomeComponent token={token} isPlaying={isPlaying} pause={pause} play={play}/> : "Search"}
                 </div>
               </div>
             </div>
