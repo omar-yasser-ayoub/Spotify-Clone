@@ -176,7 +176,7 @@ function App() {
             )}
           </div>
         </div>}
-        {currentMenu === "Home"  && <HomeComponent token={token}/>}
+        {currentMenu === "Home"  && <HomeComponent token={token} isPlaying={isPlaying} pause={pause} play={play}/>}
         {currentMenu === "Search"  && <SearchComponent token={token} />}
         {currentMenu === "Library"  && <LibraryComponent token={token} />}
       </div>
