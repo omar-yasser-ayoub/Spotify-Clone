@@ -153,7 +153,7 @@ function App() {
         </div>}
         {currentMenu === "Home"  && <HomeComponent token={token}/>}
         {currentMenu === "Search"  && <SearchComponent token={token} />}
-        {currentMenu === "Library"  && <LibraryComponent/>}
+        {currentMenu === "Library"  && <LibraryComponent token={token} />}
       </div>
     </div>
   );
