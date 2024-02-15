@@ -4,6 +4,7 @@ import LibraryCard from "./LibraryCard";
 import { ReactComponent as FilterSVG } from '../Assets/Filter.svg';
 import { ReactComponent as SearchSVG } from '../Assets/Search.svg';
 import { ReactComponent as PlusSVG } from '../Assets/Plus.svg';
+import { ReactComponent as LibrarySVG } from '../Assets/Library.svg';
 
 function LibraryComponent(props) {
   const [playlists, setPlaylists] = useState([]);
@@ -47,17 +48,18 @@ function LibraryComponent(props) {
   }
   
   return (
-    <div className="z-0 w-full absolute bg-dark-bg h-full bg-fixed text-white font-SpotifyCircular-Medium overflow-y-scroll">
+    <div className="z-0 w-full md:no-scrollbar absolute bg-dark-bg h-full bg-fixed text-white font-SpotifyCircular-Medium overflow-y-scroll">
       <div className="px-4">
-        <div className="fixed w-full z-10">
+        <div className="fixed md:sticky w-full z-10">
           <div className="bg-dark-bg">
-            <div className="inline-flex justify-between w-full pr-8">
+            <div className="inline-flex justify-between w-full md:pr-0 pr-8">
               <div className="inline-flex pt-8 items-center gap-4 flex-shrink-0">
-                <img src={profilePic} className="w-8 h-8 rounded-full"/>
-                <h1 className="text-2xl pt-2">Your Library</h1>
+                <img src={profilePic} className="md:hidden w-8 h-8 rounded-full"/>
+                <LibrarySVG className="sm:hidden md:block w-6"/>
+                <h1 className="text-2xl pt-2 md:text-base">Your Library</h1>
               </div>
               <div className="inline-flex flex-shrink-0 pt-10 gap-4">
-                <SearchSVG className="w-6" />
+                <SearchSVG className="md:hidden w-6" />
                 <PlusSVG className="w-6" />
               </div>
             </div>
@@ -73,7 +75,7 @@ function LibraryComponent(props) {
               </div>
             </div>
           </div>
-          <div className="-mx-4 h-1 bg-gradient-to-t to-black from-transparent" />
+          <div className="-mx-4 h-1 bg-gradient-to-t to-black from-transparent md:hidden" />
         </div>
         <div className="h-full absolute top-36 pt-4">
           <div className="mb-3">
