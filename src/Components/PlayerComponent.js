@@ -80,6 +80,12 @@ function PlayerComponent(props) {
   function handleClick() {
     setPlayer(!isPlayer);
   }
+  const handleVolumeChange = (event) => {
+    props.changeVolume(event.target.value/100);
+  };
+  const handleSeek = (event) => {
+    props.playerSeekTo(event.target.value/(3 + (1/3)))
+  }
     return (
       <div className='font-SpotifyCircular-Medium h-full'>
         <div className='hidden md:block h-full'>
@@ -107,16 +113,29 @@ function PlayerComponent(props) {
                 <LoopSVG width={20} height={20} className=""/>
               </div>
               <div className='inline-flex gap-5 justify-center items-center'>
-                <h1>0:00</h1>
-                <hr className='w-4/6 border'/>
-                <h1>3:15</h1>
+                <h1>{props.currentTime < 10 ? "0:0" +  props.currentTime : "0:" +  props.currentTime}</h1>
+                <input 
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={(props.currentTime)*(3 + (1/3))}
+                  onChange={handleSeek}
+                  className='appearance-none h-1 w-4/6 rounded-lg bg-gray-300 cursor-pointer focus:outline-none focus:bg-white'
+                />
+                <h1>0:30</h1>
               </div>
             </div>
             <div className='col-span-1 inline-flex gap-4 items-center justify-end mr-4 h-full text-right'>
-
                 <HamburgerSVG width={25} height={25} className=""/>
                 <ComputerSVG width={25} height={25} className=""/>
-                <hr className='w-2/5 border'/>
+                <input 
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={(props.volume)*100}
+                  onChange={handleVolumeChange}
+                  className='appearance-none h-1 rounded-lg bg-gray-300 cursor-pointer focus:outline-none focus:bg-white'
+                />
             </div>
           </div>
         </div>

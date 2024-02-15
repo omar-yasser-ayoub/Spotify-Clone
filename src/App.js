@@ -6,7 +6,7 @@ import { ReactComponent as HomeSelectedSVG } from './Assets/HomeFilled.svg';
 import { ReactComponent as SearchSelectedSVG } from './Assets/SearchFilled.svg';
 import { ReactComponent as LibrarySelectedSVG } from './Assets/LibraryFilled.svg';
 import HomeComponent from './Components/HomeComponent';
-import { useEffect, useState} from 'react';
+import { useEffect, useRef, useState} from 'react';
 import PlayerComponent from './Components/PlayerComponent';
 import SearchComponent from './Components/SearchComponent';
 import LibraryComponent from './Components/LibraryComponent';
@@ -22,6 +22,8 @@ function App() {
   const [refreshToken, setRefreshToken] = useState("");
   const [isPlaying,setPlaying] = useState(false);
   const [volume,setVolume] = useState(0.25);
+  const [playerCurrentTime, setPlayerCurrentTime] = useState(0);
+  const playerRef = useRef(null);
 
   const { globalVariable, updateGlobalVariable } = useContext(AppContext);
 
@@ -43,6 +45,14 @@ function App() {
     }
     setRefreshToken(refreshToken)
     setToken(token)
+
+    const intervalId = setInterval(() => {
+      if (playerRef.current) {
+        setPlayerCurrentTime(Math.floor(playerRef.current.getCurrentTime()));
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
   }, [])
 
   const logout = () => {
@@ -74,9 +84,22 @@ function App() {
   function play() {
     setPlaying(true)
   }
+  function changeVolume(volume) {
+    setVolume(volume)
+  }
+  function getCurrentTime() {
+    if (playerRef.current) {
+      setPlayerCurrentTime(playerRef.current.getCurrentTime());
+    }
+  };
+  function playerSeekTo(seconds) {
+    if (playerRef.current) {
+      playerRef.current.seekTo(seconds,"seconds");
+    }
+  }
   return (
     <div className='w-full h-full'>
-      <ReactPlayer playing={isPlaying} volume ={volume}  url={globalVariable.preview_url} height={0} width={0}/>
+      <ReactPlayer ref={playerRef} playing={isPlaying} volume ={volume}  url={globalVariable.preview_url} height={0} width={0}/>
       <div className='hidden md:block'>
         <div className='w-full h-screen bg-black text-white'>
           <div className='grid grid-cols-5 h-5/6 p-1 gap-2'>
@@ -112,7 +135,7 @@ function App() {
           </div>
           <div className='p-1 h-28'>
             <div className='bg-dark-bg h-full rounded-md'>
-            {globalVariable.name && <PlayerComponent isPlaying={isPlaying} handlePlayPause={handlePlayPause} item={globalVariable}/>}
+            {globalVariable.name && <PlayerComponent playerSeekTo={playerSeekTo} currentTime={playerCurrentTime} isPlaying={isPlaying} handlePlayPause={handlePlayPause} item={globalVariable} changeVolume={changeVolume} volume={volume}/>}
             </div>
           </div>
         </div>
@@ -136,7 +159,7 @@ function App() {
                   <h1 className="mt-1">Your Library</h1>
                 </div> 
             </div>
-            {globalVariable.name && <PlayerComponent isPlaying={isPlaying} handlePlayPause={handlePlayPause} item={globalVariable}/>}
+            {globalVariable.name && <PlayerComponent isPlaying={isPlaying} handlePlayPause={handlePlayPause} item={globalVariable} changeVolume={changeVolume} volume={volume} />}
           </div>
         </div>
         { currentMenu === "Home" && <div className="w-full h-24 bg-dark-bg text-white">

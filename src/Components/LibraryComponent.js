@@ -55,7 +55,7 @@ function LibraryComponent(props) {
             <div className="inline-flex justify-between w-full md:pr-0 pr-8">
               <div className="inline-flex pt-8 items-center gap-4 flex-shrink-0">
                 <img src={profilePic} className="md:hidden w-8 h-8 rounded-full"/>
-                <LibrarySVG className="sm:hidden md:block w-6"/>
+                <LibrarySVG className="hidden md:block w-6"/>
                 <h1 className="text-2xl pt-2 md:text-base">Your Library</h1>
               </div>
               <div className="inline-flex flex-shrink-0 pt-10 gap-4">
