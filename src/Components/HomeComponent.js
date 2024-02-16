@@ -166,7 +166,7 @@ function HomeComponent(props) {
 
 
     return (
-      <div className="z-0 w-full absolute top-20 bg-dark-bg h-max font-SpotifyCircular-Light md:static md:top- md:h-full bg-fixed">
+      <div className="z-0 w-full absolute top-20 bg-dark-bg h-max font-SpotifyCircular-Light md:static md:h-full bg-fixed">
       <div className="mx-4">
         <div className='grid grid-cols-2 md:grid-cols-3 gap-2 mt-6 justify-center items-center'>
           {isLoaded ? renderRecent() : recentLoadingDiv()}

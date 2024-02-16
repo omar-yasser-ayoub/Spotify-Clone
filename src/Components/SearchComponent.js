@@ -6,12 +6,12 @@ import GenreComponent from "./GenreComponent";
 import SearchBarComponent from "./SearchBarComponent";
 function SearchComponent(props) {
     return (
-      <div className="z-0 w-full absolute bg-dark-bg h-max bg-fixed  text-white font-SpotifyCircular-Medium">
+      <div className="z-0 w-full absolute text-white bg-dark-bg h-max font-SpotifyCircular-Bold md:static bg-fixed">
         <div className="mx-4">
-          <h1 className="text-2xl mt-8">Search</h1> 
+          <h1 className="text-2xl mt-8 md:hidden">Search</h1> 
           <SearchBarComponent token={props.token} />
-          <h1 className="mt-8">Explore your genres</h1>
-          <div className="grid grid-cols-3 -mx-2 mt-4">
+          <h1 className="mt-8 md:hidden">Explore your genres</h1>
+          <div className="grid grid-cols-3 -mx-2 mt-4 md:hidden">
             <VideoComponent genre="glitch" vid={vid1}/>
             <VideoComponent genre="emo rap" vid={vid2}/>
             <VideoComponent genre="energetic" vid={vid3}/>

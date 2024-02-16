@@ -126,9 +126,9 @@ function App() {
             </div> 
             <div className='h-full col-span-4 overflow-y-scroll no-scrollbar rounded-md'>
               <div className='bg-dark-bg rounded-md'>
-                <h1 className="text-4xl font-SpotifyCircular-Medium text-white col-span-2 pt-8 pl-4">Good evening</h1> 
-                <div className='bg-dark-bg rounded-md h-full'>
-                  {currentMenu === "Home" ? <HomeComponent token={token} isPlaying={isPlaying} pause={pause} play={play}/> : "Search"}
+                
+                <div className='bg-dark-bg rounded-md h-full pt-1'>
+                  {currentMenu === "Home" ? <HomeComponent token={token} isPlaying={isPlaying} pause={pause} play={play}/> : <SearchComponent token={token} />}
                 </div>
               </div>
             </div>
